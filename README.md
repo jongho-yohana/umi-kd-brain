@@ -10,6 +10,30 @@
 - **Inference**: Fast inference with streaming support
 - **Model Export**: Multiple export formats (LoRA, merged, GGUF)
 
+## Configuration
+
+Edit `src/config.py`:
+
+```python
+from src.config import Config
+
+config = Config()
+
+# Model settings
+config.model.model_name = "unsloth/gemma-3-27b-it"
+config.model.max_seq_length = 2048
+config.model.load_in_4bit = True
+
+# Training settings
+config.training.max_steps = 500
+config.training.learning_rate = 2e-4
+config.training.per_device_train_batch_size = 2
+
+# Inference settings
+config.inference.max_new_tokens = 128
+config.inference.temperature = 1.0
+```
+
 ## Quick Start
 
 ### 1. Install Dependencies
@@ -60,35 +84,9 @@ The augmented convo dataset includes 7 types of clinician responses:
 - **Format**: columns - Annotator, Category, Subcategory, Utterance, Date
 - **Use case**: For fine-tuning without pre-written answers
 
-
-### Train
-
-Use the pre-augmented dataset with convos:
-
-```bash
-# Quick training (500 steps)
-make train-qa
-
-# Full training
+## With validation split
 python scripts/train_qa.py \
-  --input-csv ./data/coach_data_qa.csv \
-  --save-path ./model-qa \
-  --max-steps 1000 \
-  --val-split 0.1
-```
-
-### Training
-
-```bash
-# Basic training
-python scripts/train_qa.py \
-  --input-csv ./data/coach_data_qa.csv \
-  --save-path ./model-qa \
-  --max-steps 500
-
-# With validation split
-python scripts/train_qa.py \
-  --input-csv ./data/coach_data_qa.csv \
+  --input-csv ./data/convo.csv \
   --save-path ./model-qa \
   --max-steps 1000 \
   --val-split 0.1 \
@@ -122,31 +120,6 @@ python scripts/evaluate.py \
   --num-samples 100 \
   --output-file ./results/eval.json
 ```
-
-## Configuration
-
-Edit `src/config.py`:
-
-```python
-from src.config import Config
-
-config = Config()
-
-# Model settings
-config.model.model_name = "unsloth/gemma-3-27b-it"
-config.model.max_seq_length = 2048
-config.model.load_in_4bit = True
-
-# Training settings
-config.training.max_steps = 500
-config.training.learning_rate = 2e-4
-config.training.per_device_train_batch_size = 2
-
-# Inference settings
-config.inference.max_new_tokens = 128
-config.inference.temperature = 1.0
-```
-
 
 ## Saving Models
 
