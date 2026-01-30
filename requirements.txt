@@ -1,0 +1,28 @@
+# Core dependencies
+torch>=2.0.0
+transformers==4.57.3
+datasets==4.3.0
+huggingface_hub>=0.34.0
+
+# Unsloth and dependencies
+unsloth
+bitsandbytes
+accelerate
+peft
+trl==0.22.2
+triton
+cut_cross_entropy
+unsloth_zoo
+
+# Additional utilities
+sentencepiece
+protobuf
+hf_transfer
+
+# Development tools
+tqdm
+ipython
+
+# Optional: For logging and experiment tracking
+# wandb
+# tensorboard
